@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #FFFFFC;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-form {
+    width: 300px;
+    height: auto;
+    display: flex;
+    padding: 35px 25px 35px 25px;
+    min-width: 200px;
+    flex-direction: column;
+    box-shadow: -15px -15px 15px rgba(0, 0, 0, 0.2),
+                  15px 15px 15px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+}
+
+.container-form h1 {
+    color: #1a1a1a;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.container-form form {
+    gap: 35px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputs {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.inputs input {
+    width: 100%;
+    height: auto;
+    padding: 13px;
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: start;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    transition: .3s ease;
+}
+
+::placeholder {
+    color: #1a1a1a;
+}
+
+.inputs input:focus {
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.container-form button {
+    width: 50%;
+    height: auto;
+    padding: 13px;
+    border: 1px solid  transparent;
+    background-color: #1a1a1a;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 8px;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.container-form button:hover {
+    color: #1a1a1a;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+/* Validation */
+.error {
+    width: 100%;
+    height: auto;
+    color: red;
+    font-size: 13px;
+    font-weight: 400;
+    position: absolute;
+    left: 1%;
+    bottom: -55%;
+}
