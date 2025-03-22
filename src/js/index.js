@@ -8,7 +8,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const number = document.getElementById('numeroCuenta');
     const pin = document.getElementById('pin');
     const button = document.getElementById('submit');
-
     const numberError = document.getElementById('numberError');
     const pinError = document.getElementById('pinError');
     const containerForm = document.querySelector('.container-form');
@@ -18,49 +17,22 @@ window.addEventListener('DOMContentLoaded', () => {
     const gestionContainer = document.querySelector('.container-gestion');
     const consultarSaldo = document.getElementById('saldo');
 
-    const retirarInput = document.getElementById('retirarDinero');
-    const depositarInput = document.getElementById('depositarDinero');
+    const retirarOpcion = document.getElementById('retirarDinero'); // Botón de menú
+    const retirarInput = document.getElementById('inputRetirar'); // Input corregido
     const retirarContainer = document.querySelector('.container-retirar');
+
+    const depositarOpcion = document.getElementById('depositar');
+    const depositarInput = document.getElementById('depositarDinero');
     const depositarContainer = document.querySelector('.container-depositar');
 
     const salir = document.getElementById('salir');
-    const retirarOpcion = document.getElementById('retirarDinero');
-    const depositarOpcion = document.getElementById('depositar');
     const botonesRegresar = document.querySelectorAll('.botonRegresar');
 
-    let attempts = 0;
-    const maxAttempts = 3;
-    let saldo = 1000;
+    let saldo = 1000; // Saldo inicial
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        let isValid = true;
-
-        const errorInputs = () => {
-            number.style.border = '1px solid red';
-            pin.style.border = '1px solid red';
-        };
-
-        if (!number.value.trim()) {
-            numberError.textContent = 'Campo requerido';
-            errorInputs();
-            isValid = false;
-        } else {
-            numberError.textContent = '';
-        }
-
-        if (!pin.value.trim()) {
-            pinError.textContent = 'Campo requerido';
-            errorInputs();
-            isValid = false;
-        } else {
-            pinError.textContent = '';
-        }
-
-        if (isValid) {
-            autenticarUsuario(number.value, pin.value);
-        }
+        autenticarUsuario(number.value, pin.value);
     });
 
     function autenticarUsuario(numeroCuenta, pinIngresado) {
@@ -68,23 +40,19 @@ window.addEventListener('DOMContentLoaded', () => {
         const pinValido = '1234';
 
         if (numeroCuenta === cuentaValida && pinIngresado === pinValido) {
+            form.style.display = 'none';
             containerForm.style.display = 'none';
             gestionContainer.style.display = 'flex';
+            saldoDisplay.textContent = `$${saldo}`;
         } else {
             pinError.textContent = 'Credenciales incorrectas';
-            attempts++;
-            if (attempts >= maxAttempts) {
-                pinError.textContent = 'Cuenta bloqueada';
-                button.disabled = true;
-                number.disabled = true;
-                pin.disabled = true;
-            }
         }
     }
 
     consultarSaldo.addEventListener('click', () => {
         gestionContainer.style.display = 'none';
         saldoContainer.style.display = 'flex';
+        saldoDisplay.textContent = `$${saldo}`;
     });
 
     retirarOpcion.addEventListener('click', () => {
@@ -104,8 +72,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 saldo -= cantidad;
                 saldoDisplay.textContent = `$${saldo}`;
                 retirarInput.value = '';
+                alert('Retiro exitoso');
             } else {
-                retirarInput.value = '';
                 alert('Cantidad inválida o saldo insuficiente');
             }
         }
@@ -118,8 +86,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 saldo += cantidad;
                 saldoDisplay.textContent = `$${saldo}`;
                 depositarInput.value = '';
+                alert('Depósito exitoso');
             } else {
-                depositarInput.value = '';
                 alert('Cantidad inválida');
             }
         }
