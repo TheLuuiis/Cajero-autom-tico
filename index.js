@@ -1,8 +1,6 @@
 'use strict'
 // <    >  =>
 
-'use strict'
-
 window.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('form');
     const number = document.getElementById('numeroCuenta');
