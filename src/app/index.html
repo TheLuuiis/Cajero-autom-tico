@@ -23,6 +23,7 @@
     <body>
         <!-- Container -->
         <div class="container">
+            <!-- Inicio de sesión -->
             <div class="container-form">
                 <h1>Inicia sesión</h1>
                 <form action="#" id="form">
@@ -37,6 +38,38 @@
                     <button type="submit" id="submit">Iniciar</button>
                 </form>
             </div>
+            <!-- Interfaz de opciones -->
+            <div class="container-gestion">
+                <h1>Gestión de cuenta</h1>
+                <ul>
+                    <li id="saldo">Consultar saldo</li>
+                    <li id="retirarDinero">Retirar dinero</li>
+                    <li id="depositar">Depositar dinero</li>
+                    <li id="salir">Salir</li>
+                </ul>
+            </div>
+            <!-- Interfaz - saldo -->
+             <div class="container-saldo">
+                <h1>Tu saldo es de:</h1>
+                <span id="cantidadSaldo">233233</span>
+                <a href="#" class="botonRegresar">Regresar</a>
+             </div>
+             <!-- Interfaz - retirar -->
+             <div class="container-retirar">
+                <h1>Ingrese la cantidad a retirar</h1>
+                <div class="inputs">
+                    <input type="text" name="retirarDinero" placeholder="Ingreses la cantidad a retirar" id="retirarDinero">
+                </div>
+                <a href="#" class="botonRegresar">Regresar</a>
+             </div>
+            <!-- Interfaz - depositar -->
+            <div class="container-depositar">
+                <h1>Ingrese la cantidad a depositar</h1>
+                <div class="inputs">
+                    <input type="text" name="depositarDinero" placeholder="Ingreses la cantidad a depositar" id="depositarDinero">
+                </div>
+                <a href="#" class="botonRegresar">Regresar</a>
+             </div>
         </div>
 
 

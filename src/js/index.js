@@ -1,79 +1,141 @@
 'use strict'
 // <    >  =>
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('form');
-        const number = document.getElementById('numeroCuenta');
-        const pin = document.getElementById('pin');
-        const button = document.getElementById('submit');
+'use strict'
 
-        const numberError = document.getElementById('numberError');
-        const pinError = document.getElementById('pinError');
+window.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form');
+    const number = document.getElementById('numeroCuenta');
+    const pin = document.getElementById('pin');
+    const button = document.getElementById('submit');
 
-        let attempts = 0;
-        const maxAttempts = 3;
+    const numberError = document.getElementById('numberError');
+    const pinError = document.getElementById('pinError');
+    const containerForm = document.querySelector('.container-form');
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+    const saldoContainer = document.querySelector('.container-saldo');
+    const saldoDisplay = document.getElementById('cantidadSaldo');
+    const gestionContainer = document.querySelector('.container-gestion');
+    const consultarSaldo = document.getElementById('saldo');
 
-            let isValid = true;
+    const retirarInput = document.getElementById('retirarDinero');
+    const depositarInput = document.getElementById('depositarDinero');
+    const retirarContainer = document.querySelector('.container-retirar');
+    const depositarContainer = document.querySelector('.container-depositar');
 
-            // Quitamos el foco si los ca,pos están llenos
-            number.addEventListener('change', resetErrors);
-            pin.addEventListener('change', resetErrors);
+    const salir = document.getElementById('salir');
+    const retirarOpcion = document.getElementById('retirarDinero');
+    const depositarOpcion = document.getElementById('depositar');
+    const botonesRegresar = document.querySelectorAll('.botonRegresar');
 
-            if (!number.value.trim()) {
-                numberError.textContent = 'Campo requerido';
-                errorInputs();
-                isValid = false;
-            } else if(!isValidNumber(number.value.trim())) {
-                numberError.textContent = 'Campo requerido';
-                errorInputs();
-            } else {
-                numberError.textContent = '';
-            };
+    let attempts = 0;
+    const maxAttempts = 3;
+    let saldo = 1000;
 
-            if (!pin.value.trim()) {
-                pinError.textContent = 'Campo requerido';
-                errorInputs();
-                isValid = false;
-            } else if(!isValidPin(pin.value.trim())) {
-                pinError.textContent = 'Ingrese el PIN';
-                errorInputs();
-                isValid = false;
-                attempts ++;
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-                if (attempts >= maxAttempts) {
-                    pinError.textContent = 'Cuenta bloqueada';
-                    button.disabled = true;
-                    number.disabled = true;
-                    pin.disabled = true;
-                };
-            } else {
-                pinError.textContent = '';
-            };
-        });
+        let isValid = true;
 
-        // ErrorInputs
         const errorInputs = () => {
             number.style.border = '1px solid red';
             pin.style.border = '1px solid red';
         };
 
-        const resetErrors = () => {
-            number.style.border = '';
-            pin.style.border = '';
-        };
+        if (!number.value.trim()) {
+            numberError.textContent = 'Campo requerido';
+            errorInputs();
+            isValid = false;
+        } else {
+            numberError.textContent = '';
+        }
 
-        // Quitamos las expresiones regulares
-        function isValidNumber(number) {
-            const numberRegex = /^[0-9\s]{16,19}$/;
-            return numberRegex.test(number);
-        };
+        if (!pin.value.trim()) {
+            pinError.textContent = 'Campo requerido';
+            errorInputs();
+            isValid = false;
+        } else {
+            pinError.textContent = '';
+        }
 
-        function isValidPin(pin) {
-            const pinRegex = /^\d{4}$/; 
-            return pinRegex.test(pin)
-        };
-
+        if (isValid) {
+            autenticarUsuario(number.value, pin.value);
+        }
     });
+
+    function autenticarUsuario(numeroCuenta, pinIngresado) {
+        const cuentaValida = '1234567890123456';
+        const pinValido = '1234';
+
+        if (numeroCuenta === cuentaValida && pinIngresado === pinValido) {
+            containerForm.style.display = 'none';
+            gestionContainer.style.display = 'flex';
+        } else {
+            pinError.textContent = 'Credenciales incorrectas';
+            attempts++;
+            if (attempts >= maxAttempts) {
+                pinError.textContent = 'Cuenta bloqueada';
+                button.disabled = true;
+                number.disabled = true;
+                pin.disabled = true;
+            }
+        }
+    }
+
+    consultarSaldo.addEventListener('click', () => {
+        gestionContainer.style.display = 'none';
+        saldoContainer.style.display = 'flex';
+    });
+
+    retirarOpcion.addEventListener('click', () => {
+        gestionContainer.style.display = 'none';
+        retirarContainer.style.display = 'flex';
+    });
+
+    depositarOpcion.addEventListener('click', () => {
+        gestionContainer.style.display = 'none';
+        depositarContainer.style.display = 'flex';
+    });
+
+    retirarInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            let cantidad = parseFloat(retirarInput.value);
+            if (!isNaN(cantidad) && cantidad > 0 && cantidad <= saldo) {
+                saldo -= cantidad;
+                saldoDisplay.textContent = `$${saldo}`;
+                retirarInput.value = '';
+            } else {
+                retirarInput.value = '';
+                alert('Cantidad inválida o saldo insuficiente');
+            }
+        }
+    });
+
+    depositarInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            let cantidad = parseFloat(depositarInput.value);
+            if (!isNaN(cantidad) && cantidad > 0) {
+                saldo += cantidad;
+                saldoDisplay.textContent = `$${saldo}`;
+                depositarInput.value = '';
+            } else {
+                depositarInput.value = '';
+                alert('Cantidad inválida');
+            }
+        }
+    });
+
+    botonesRegresar.forEach(boton => {
+        boton.addEventListener('click', (e) => {
+            e.preventDefault();
+            saldoContainer.style.display = 'none';
+            retirarContainer.style.display = 'none';
+            depositarContainer.style.display = 'none';
+            gestionContainer.style.display = 'flex';
+        });
+    });
+
+    salir.addEventListener('click', () => {
+        location.reload();
+    });
+});
